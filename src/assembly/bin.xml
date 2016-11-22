@@ -1,0 +1,94 @@
+<!--
+  ~ /*
+  ~ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+  ~ *
+  ~ * Licensed under the Apache License, Version 2.0 (the "License");
+  ~ * you may not use this file except in compliance with the License.
+  ~ * You may obtain a copy of the License at
+  ~ *
+  ~ * http://www.apache.org/licenses/LICENSE-2.0
+  ~ *
+  ~ * Unless required by applicable law or agreed to in writing, software
+  ~ * distributed under the License is distributed on an "AS IS" BASIS,
+  ~ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ * See the License for the specific language governing permissions and
+  ~ * limitations under the License.
+  ~ */
+  -->
+<assembly>
+    <includeBaseDirectory>true</includeBaseDirectory>
+    <baseDirectory>wso2-tooling-${project.version}</baseDirectory>
+    <id>WSO2 JS Tooling</id>
+    <formats>
+        <format>jar</format>
+    </formats>
+
+    <fileSets> 
+        <fileSet>
+            <directory>target/linux-ia32-unpacked/</directory>
+            <outputDirectory>linux32</outputDirectory>
+            <excludes>
+                <exclude>wso2-tooling</exclude>
+            </excludes>
+            <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/linux-unpacked</directory>
+            <outputDirectory>linux64</outputDirectory>
+            <excludes>
+                <exclude>wso2-tooling</exclude>
+            </excludes>
+            <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/wso2-tooling.app</directory>
+            <outputDirectory>macOS</outputDirectory>
+            <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/win-ia32-unpacked</directory>
+            <outputDirectory>win32</outputDirectory>
+            <excludes>
+                <exclude>wso2-tooling.exe</exclude>
+            </excludes>
+            <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>target/win-unpacked</directory>
+            <outputDirectory>win64</outputDirectory>
+            <excludes>
+                <exclude>wso2-tooling.exe</exclude>
+            </excludes>
+            <fileMode>644</fileMode>
+        </fileSet>
+        <fileSet>
+            <directory>lib</directory>
+            <outputDirectory>libs</outputDirectory>
+            <fileMode>644</fileMode>
+        </fileSet>
+    </fileSets>
+
+    <files> 
+        <file>
+            <source>target/linux-ia32-unpacked/wso2-tooling</source>
+            <outputDirectory>linux32</outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+        <file>
+            <source>target/linux-unpacked/wso2-tooling</source>
+            <outputDirectory>linux64</outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+        <file>
+            <source>target/win-ia32-unpacked/wso2-tooling.exe</source>
+            <outputDirectory>win32</outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+        <file>
+            <source>target/win-unpacked/wso2-tooling.exe</source>
+            <outputDirectory>win64</outputDirectory>
+            <fileMode>755</fileMode>
+        </file>
+    </files>
+
+</assembly>

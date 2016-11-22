@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <unzip dest="target/">
+    <fileset dir="desktop/dist/linux32/">
+      <filename regex="wso2-tooling-\d*\.\d*\.\d*(-.*)?-ia32\.zip"/>
+    </fileset>
+  </unzip>
+  <unzip dest="target/">
+    <fileset dir="desktop/dist/linux64/">
+      <filename regex="wso2-tooling-\d*\.\d*\.\d*(-.*)?\.zip"/>
+    </fileset>
+  </unzip>
+  <unzip dest="target/">
+    <fileset dir="desktop/dist/macOS/">
+      <filename regex="wso2-tooling-\d*\.\d*\.\d*(-.*)?-mac\.zip"/>
+    </fileset>
+  </unzip>
+  <unzip dest="target/">
+    <fileset dir="desktop/dist/win32/">
+      <filename regex="wso2-tooling-\d*\.\d*\.\d*(-.*)?-ia32-win\.zip"/>
+    </fileset>
+  </unzip>
+  <unzip dest="target/">
+    <fileset dir="desktop/dist/win64/">
+      <filename regex="wso2-tooling-\d*\.\d*\.\d*(-.*)?-win\.zip"/>
+    </fileset>
+  </unzip>
+</target>
+</project>
