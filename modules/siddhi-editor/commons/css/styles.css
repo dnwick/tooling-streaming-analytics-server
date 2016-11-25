@@ -1,15 +1,16 @@
-body{
+body {
     background: #232323;
 }
 
-#alerts-container{
-  display:none
+#alerts-container {
+    display: none
 }
-#right-container{
+
+#right-container {
     background-color: #232323;
 }
 
-#main-navbar{
+#main-navbar {
     background-color: #232323;
     border-top: solid #1e1e1e;
     border-bottom: solid #1e1e1e;
@@ -17,13 +18,14 @@ body{
 
 .header {
     background-color: #1e1e1e;
+    min-height: 27px;
 }
 
-#editor-container{
+#editor-container {
     background-color: #fff;
 }
 
-.editor-scroller{
+.editor-scroller {
     cursor: move;
 }
 
@@ -37,9 +39,11 @@ body{
 
 /*//////////////////////////////////////////////////*/
 /** Editor canvas related styles | Start -> **/
-svg text::selection { background: none; }
+svg text::selection {
+    background: none;
+}
 
-.non-user-selectable{
+.non-user-selectable {
     -webkit-touch-callout: none;
     -webkit-user-select: none;
     -khtml-user-select: none;
@@ -48,51 +52,53 @@ svg text::selection { background: none; }
     user-select: none;
 }
 
-.canvas-container
-{
+.canvas-container {
+    width: 100%;
     opacity: 100%;
     background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAHUlEQVQYV2NkYGAwBuKzQIwXMBJSAJMfVUidcAQAnUQBC6jEGBUAAAAASUVORK5CYII=');
     background-color: white;
     box-shadow: 0 0 2px lightgray;
 }
+
 /** Editor canvas related styles | -> End **/
 /*//////////////////////////////////////////////////*/
 
-
 /*//////////////////////////////////////////////////*/
 /** Resource level tabs related styles | Start -> **/
-#tab-container{
-    border-bottom-style: solid;
-    border-bottom-color: #8d8d8d;
+#tab-container {
+    /*border-bottom-style: solid;*/
+    /*border-bottom-color: #8d8d8d;*/
 }
-.tab-headers{
+
+.tab-headers {
     background-color: #e4e4e4;
     height: 22px;
-    border-bottom-color:darkgray;
+    border-bottom-color: darkgray;
 }
 
 .navbar-default .navbar-nav > li a:hover {
     background: #8d8d8d;
 }
+
 .navbar-default .navbar-nav > li a:active {
     background: #8d8d8d;
 }
+
 .navbar-default .navbar-nav > li a:focus {
     background: #8d8d8d;
 }
 
 .nav-tabs > li, .nav-tabs > li > a {
-    height:22px;
+    height: 22px;
 }
 
-.nav-tabs > li > a{
-    border-right: 1px solid darkgrey;
-    border-bottom: 1px solid white;
+.nav-tabs > li > a {
+    border-bottom: 1px solid #8d8d8d;
 }
 
 .nav-tabs > li > span {
-    cursor:pointer;
-    position:absolute;
+    cursor: pointer;
+    position: absolute;
     right: 0;
     top: 12px;
     color: #c0392b;
@@ -100,26 +106,26 @@ svg text::selection { background: none; }
 }
 
 .nav-tabs > li > a {
-    padding-right: 32px;
-    padding-top: 1px;
+    padding-right: 15px;
+    padding-top: 3px;
     margin: 0;
     font-size: 0.8em;
     border-radius: 0;
 }
 
 .nav-tabs > li {
-    background-color: #f8f8f8;
+    background-color: #c4c4c4;
 }
 
-.nav-tabs{
+.nav-tabs {
     border: 0;
 }
 
 .add-resource-btn {
-    width:40px;
+    width: 40px;
 }
 
-.tab-divs{
+.tab-divs {
     position: absolute;
     width: 100%;
     height: 100%;
@@ -131,22 +137,24 @@ svg text::selection { background: none; }
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
     border: 1px solid #8d8d8d;
-    background-color: #373737;
+    background-color: #c4c4c4;
     color: white;
 }
 
 .remove-resource {
     position: absolute;
-    top: 14px;
+    top: 8px;
     right: 9px;
+    font-size: 8px;
+    color: #a8a8a8;
 }
 
 .close-icon {
     cursor: pointer;
 }
+
 /** Resource level tabs related styles | -> End **/
 /*//////////////////////////////////////////////////*/
-
 
 /*//////////////////////////////////////////////////*/
 /** File Explorer related styles |Start -> **/
@@ -155,10 +163,10 @@ svg text::selection { background: none; }
     border: solid #373737;
 }
 
-#tree-action-bar{
+#tree-action-bar {
     background-color: #373737;
     color: #ededed;
-    border-bottom:solid #1e1e1e;
+    border-bottom: solid #1e1e1e;
 }
 
 .tree-view {
@@ -174,39 +182,88 @@ svg text::selection { background: none; }
     background: #fdfdfd;
 
 }
-.tree-action{
+
+.tree-action {
     float: right;
 }
 
-i.tree-action{
+i.tree-action {
     padding: 15px 8px;
 }
-span.tree-action{
+
+span.tree-action {
     padding: 4px;
 }
 
-.tree-view input{
+.tree-view input {
     height: 32px;
     color: black;
 }
+
 /** File Explorer related styles | -> End **/
 /*//////////////////////////////////////////////////*/
 
-
 /*//////////////////////////////////////////////////*/
 /** Breadcrumbs related styles | Start -> **/
-.breadcrumb{
-    text-transform: none;
-    font-size: 14px;
-    padding: 16px;
-    background-color: #f1f1f1;
-    float:left;
+
+header .brand img.logo {
+    height: 15px;
+    padding: 0px 10px;
 }
-#breadcrumbRow{
-    border-bottom: 2px solid #1e1e1e;
+
+header .brand {
+    padding: 5px;
 }
-#breadcrumb-container{
-    background-color:#f1f1f1;
+
+header .brand h1 {
+    font-size: 15px;
 }
-/** Breadcrumbs related styles | -> End**/
+
+ol#breadcrumbList {
+    background-color: #444;
+}
+
+/** Menu Bar **/
+.dropdown-menu{
+    background: #1e1e1e;
+    top: 50%;
+    font-size: 11px;
+}
+
+
+    /** Breadcrumbs related styles | -> End**/
 /*//////////////////////////////////////////////////*/
+.settings-icon {
+    padding-top: 5px;
+}
+
+.source-icon {
+    padding-top: 5px;
+}
+
+.file-browser-container {
+    padding: 15px;
+    max-height: 450px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+header .brand img.logo {
+    height: 17px;
+    padding: 0px 7px;
+}
+
+header .brand {
+    padding: 1px 10px;
+}
+
+header .brand h1 {
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 200;
+    color: #d6d6d6;
+}
+
+ol#breadcrumbList {
+    background-color: #444;
+}
