@@ -16,13 +16,11 @@
  * under the License.
  */
 
-alert(5555);
+define(['require', 'log', 'jquery', 'lodash', 'backbone', 'menu_bar','command','workspace','app/tab/service-tab-list'
 
-define(['require', 'log', 'jquery', 'lodash', 'backbone', 'commons_app/js/menu-bar/menu-bar',
+    /* void modules */ ],
 
-    /* void modules */ 'jquery_ui', 'bootstrap'],
-
-    function (require, log, $, _, Backbone, MenuBar) {
+    function (require, log, $, _, Backbone, MenuBar,CommandManager,Workspace,TabController) {
 
     var Application = Backbone.View.extend(
     /** @lends Application.prototype */
@@ -40,6 +38,13 @@ define(['require', 'log', 'jquery', 'lodash', 'backbone', 'commons_app/js/menu-b
         },
 
         initComponents: function(){
+
+            // init command manager
+            this.commandManager = new CommandManager();
+
+            //init workspace manager
+            this.workspaceManager = new Workspace.Manager(this);
+
             // init breadcrumbs controller
             //this.breadcrumbController = new BreadcrumbController(_.get(this.config, "breadcrumbs"));
 
@@ -52,6 +57,14 @@ define(['require', 'log', 'jquery', 'lodash', 'backbone', 'commons_app/js/menu-b
 //            var toolPaletteOpts = _.get(this.config, "tab_controller.tool_palette");
 //            _.set(toolPaletteOpts, 'application', this);
 //            this.toolPalette = new ToolPalette(toolPaletteOpts);
+
+            //init tab controller
+            var tabControlOpts = _.get(this.config, "tab_controller");
+            _.set(tabControlOpts, 'application', this);
+
+            // tab controller will take care of rendering tool palette
+            _.set(tabControlOpts, 'toolPalette', this.toolPalette);
+            this.tabController = new TabController(tabControlOpts);
 
             //init tab controller
 //            var tabControlOpts = _.get(this.config, "tab_controller");
@@ -91,6 +104,10 @@ define(['require', 'log', 'jquery', 'lodash', 'backbone', 'commons_app/js/menu-b
             log.debug("start: rendering menu_bar control");
             this.menuBar.render();
             log.debug("end: rendering menu_bar control");
+
+            log.debug("start: rendering tab controller");
+            this.tabController.render();
+            log.debug("end: rendering tab controller");
 
 //            log.debug("start: rendering breadcrumbs control");
 //            this.breadcrumbController.render();

@@ -67,11 +67,11 @@ div[class*="col-sm-"] {
     padding: 0;
     /*Adjust when implementing file explorer*/
     width:20px;
+    position: fixed;
 }
 
 #right-container{
     height: 100%;
-    padding: 0;
 }
 
 /*//////////////////////////////////////////////////*/
@@ -216,10 +216,6 @@ div[class*="col-sm-"] {
     display: inline-block;
 }
 
-#tabs-container{
-    height:100%;
-    width:1700px;
-}
 #tab-container{
     height: 25px;
     border-bottom-width: 1px;
@@ -311,6 +307,22 @@ div[class*="col-sm-"] {
     bottom: 20px;
     left: 0;
     right: 0;
+}
+
+.tab-content-default {
+    margin-left: 200px;
+}
+
+#tab-content-wrapper {
+    position: relative;
+}
+
+.left-container-expanded {
+    margin-left: 200px;
+}
+
+.left-container-default {
+    margin-left: 20px;
 }
 /** ace editor (source view) related styles | -> End **/
 /*//////////////////////////////////////////////////*/

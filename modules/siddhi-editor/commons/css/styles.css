@@ -231,7 +231,7 @@ ol#breadcrumbList {
 }
 
 
-    /** Breadcrumbs related styles | -> End**/
+/** Breadcrumbs related styles | -> End**/
 /*//////////////////////////////////////////////////*/
 .settings-icon {
     padding-top: 5px;
@@ -266,4 +266,16 @@ header .brand h1 {
 
 ol#breadcrumbList {
     background-color: #444;
+}
+
+#icon-toggle-source {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+}
+
+#icon-toggle-design {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
 }
