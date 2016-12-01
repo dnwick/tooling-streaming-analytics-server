@@ -16,11 +16,11 @@
  * under the License.
  */
 
-define(['require', 'log', 'jquery', 'lodash', 'backbone', 'menu_bar','command','workspace','app/tab/service-tab-list'
+define(['require', 'log', 'jquery', 'lodash', 'backbone', 'menu_bar','command','workspace','app/tab/service-tab-list','app/tool-palette/tool-palette'
 
     /* void modules */ ],
 
-    function (require, log, $, _, Backbone, MenuBar,CommandManager,Workspace,TabController) {
+    function (require, log, $, _, Backbone, MenuBar,CommandManager,Workspace,TabController,ToolPalette) {
 
     var Application = Backbone.View.extend(
     /** @lends Application.prototype */
@@ -54,9 +54,9 @@ define(['require', 'log', 'jquery', 'lodash', 'backbone', 'menu_bar','command','
 //            this.fileBrowser = new FileBrowser(fileBrowserOpts);
 
             //init tool palette
-//            var toolPaletteOpts = _.get(this.config, "tab_controller.tool_palette");
-//            _.set(toolPaletteOpts, 'application', this);
-//            this.toolPalette = new ToolPalette(toolPaletteOpts);
+            var toolPaletteOpts = _.get(this.config, "tab_controller.tool_palette");
+            _.set(toolPaletteOpts, 'application', this);
+            this.toolPalette = new ToolPalette(toolPaletteOpts);
 
             //init tab controller
             var tabControlOpts = _.get(this.config, "tab_controller");

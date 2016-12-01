@@ -37,7 +37,6 @@ define(['require', 'jquery', 'backbone', 'lodash','log'],
             if(!container.length > 0) {
                 throw "container not found."
             }
-                console.log(container);
             this._$parent_el = container;
             this.options = options;
 
@@ -72,6 +71,7 @@ define(['require', 'jquery', 'backbone', 'lodash','log'],
             //var sourceView = new SourceView(sourceViewOptions);
 
             toggleSourceIcon.on('click', function () {
+                console.log(canvasContainer);
                 canvasContainer.removeClass('show-div').addClass('hide-div');
                 previewContainer.removeClass('show-div').addClass('hide-div');
                 toggleControlsContainer.find('.toggle-to-source').removeClass('show-div').addClass('hide-div');
