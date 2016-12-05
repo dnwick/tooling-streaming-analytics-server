@@ -56,8 +56,9 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
                 throw errMsg;
             }
             var designViewOpts = {};
+            console.log(canvasContainer);
             _.set(designViewOpts, 'container', canvasContainer.get(0));
-            // _.set(serviceViewOpts, 'toolPalette', this.options.toolPalette);
+            //_.set(serviceViewOpts, 'toolPalette', this.options.toolPalette);
             var designView = new DesignView(designViewOpts);
 
             //serviceView.render();
@@ -72,7 +73,6 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
 
             toggleSourceIcon.on('click', function () {
 
-                console.log(canvasContainer);
                 canvasContainer.removeClass('show-div').addClass('hide-div');
                 previewContainer.removeClass('show-div').addClass('hide-div');
                 toggleControlsContainer.find('.toggle-to-source').removeClass('show-div').addClass('hide-div');

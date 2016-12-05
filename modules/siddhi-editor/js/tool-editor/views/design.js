@@ -32,8 +32,13 @@ function (require, log, $,Backbone, _
              */
             initialize: function (opts) {
 
-                console.log("QQQQQQQQQQQQQQQQQQQQQ");
-                console.log(opts);
+                this.options = opts;
+
+                console.log(this.options.container);
+                $(this.options.container).append("<div class='innerContainer' id='container1'>");
+                //alert(($(this.options.container)).attr('class'));
+
+
             }
 
         });
