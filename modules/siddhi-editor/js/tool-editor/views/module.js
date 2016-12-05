@@ -34,6 +34,7 @@ define(['./tool-editor'],
 //        views.ServiceOutlineView = ServiceOutlineView;
 //        views.ServicePreview = ServicePreview;
 //        views.SourceView = SourceView;
+       // views.DesignView = DesignView;
         views.ToolEditor = ToolEditor;
         return views;
     });

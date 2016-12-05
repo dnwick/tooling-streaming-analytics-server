@@ -56,6 +56,8 @@ define(['require', 'log', 'jquery', 'lodash', 'backbone', 'menu_bar','command','
             //init tool palette
             var toolPaletteOpts = _.get(this.config, "tab_controller.tool_palette");
             _.set(toolPaletteOpts, 'application', this);
+
+
             this.toolPalette = new ToolPalette(toolPaletteOpts);
 
             //init tab controller
