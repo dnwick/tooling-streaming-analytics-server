@@ -1,6 +1,7 @@
 /** Canvas related styles | -> End **/
 /*//////////////////////////////////////////////////*/
 
-.innerContainer {
-    background-color: white !important;
+.canvas-container{
+    background-color: #fff;
+    height: 100%;
 }
