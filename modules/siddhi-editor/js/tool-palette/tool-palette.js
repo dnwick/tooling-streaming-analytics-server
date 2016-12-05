@@ -16,9 +16,9 @@
  * under the License.
  */
 define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-group',
-        'main_elements', 'processors', './drag-drop-manager','alerts'],
+         './drag-drop-manager'],
     function (require, log, $, Backbone, ToolGroupView, ToolGroup,
-              MainElements, Processors, DragDropManager,AlertManager) {
+               DragDropManager) {
 
     var ToolPalette = Backbone.View.extend({
         initialize: function (options) {
@@ -99,7 +99,7 @@ define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-gro
             // For search
             var toolGroupList = this._toolGroups;
             var toolView = this;
-            var opts = this._options.application.config.alerts;
+            // var opts = this._options.application.config.alerts;
 
             //when search input field is empty render entire tool palette
             $("#search-field").unbind('keyup').bind('keyup', function (e) {
@@ -111,51 +111,51 @@ define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-gro
                     toolGroupList = toolView._toolGroups;
                 }
             });
-
-            $("#search-field").keypress(function (e) {
-                var key = e.which;
-                //When user press 'enter'
-                if (key == 13) {
-
-                    var keyword = this.value;
-                    // removing spaces from the keyword
-                    keyword = keyword.replace(/\s+/g, '');
-                    // For main elements
-                    if (toolGroupList[0].tools.length > 0) {
-                        var foundMain = _.find(toolGroupList[0].tools, function (tool) {
-                            return tool.id.toLowerCase().includes(keyword.toLowerCase());
-                        });
-                    }
-                    // For mediators
-                    if (toolGroupList[1]) {
-                        var foundMediator = _.find(toolGroupList[1].tools, function (tool) {
-                            return tool.id.toLowerCase().includes(keyword.toLowerCase());
-                        });
-                    }
-                    // If main element
-                    if (!_.isUndefined(foundMain)) {
-                        var sampleGroup = toolGroupList[0];
-                        var toRemove = _.without(toolGroupList[0].tools, foundMain);
-                        var newMainGroup = _.difference(toolGroupList[0].tools, toRemove);
-                        toolView.resetToolGroup();
-                        sampleGroup.tools = newMainGroup;
-                        toolView._toolGroups.push(sampleGroup);
-                        toolView.render();
-                    }
-
-                    // If mediator
-                    else if (!_.isUndefined(foundMediator)) {
-                        var sampleGroup1 = toolGroupList[1];
-                        var toRemove1 = _.without(toolGroupList[1].tools, foundMediator);
-                        var newMediatorGroup = _.difference(toolGroupList[1].tools, toRemove1);
-                        toolView.resetToolGroup();
-                        sampleGroup1.tools = newMediatorGroup;
-                        toolView._toolGroups.push(sampleGroup1);
-                        toolView.render();
-                    }
-                }
-
-            });
+            //
+            // $("#search-field").keypress(function (e) {
+            //     var key = e.which;
+            //     //When user press 'enter'
+            //     if (key == 13) {
+            //
+            //         var keyword = this.value;
+            //         // removing spaces from the keyword
+            //         keyword = keyword.replace(/\s+/g, '');
+            //         // For main elements
+            //         if (toolGroupList[0].tools.length > 0) {
+            //             var foundMain = _.find(toolGroupList[0].tools, function (tool) {
+            //                 return tool.id.toLowerCase().includes(keyword.toLowerCase());
+            //             });
+            //         }
+            //         // For mediators
+            //         if (toolGroupList[1]) {
+            //             var foundMediator = _.find(toolGroupList[1].tools, function (tool) {
+            //                 return tool.id.toLowerCase().includes(keyword.toLowerCase());
+            //             });
+            //         }
+            //         // If main element
+            //         if (!_.isUndefined(foundMain)) {
+            //             var sampleGroup = toolGroupList[0];
+            //             var toRemove = _.without(toolGroupList[0].tools, foundMain);
+            //             var newMainGroup = _.difference(toolGroupList[0].tools, toRemove);
+            //             toolView.resetToolGroup();
+            //             sampleGroup.tools = newMainGroup;
+            //             toolView._toolGroups.push(sampleGroup);
+            //             toolView.render();
+            //         }
+            //
+            //         // If mediator
+            //         else if (!_.isUndefined(foundMediator)) {
+            //             var sampleGroup1 = toolGroupList[1];
+            //             var toRemove1 = _.without(toolGroupList[1].tools, foundMediator);
+            //             var newMediatorGroup = _.difference(toolGroupList[1].tools, toRemove1);
+            //             toolView.resetToolGroup();
+            //             sampleGroup1.tools = newMediatorGroup;
+            //             toolView._toolGroups.push(sampleGroup1);
+            //             toolView.render();
+            //         }
+            //     }
+            //
+            // });
             return this;
         },
 

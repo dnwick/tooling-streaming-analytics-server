@@ -80,9 +80,9 @@ define(['log', 'jquery', 'lodash', 'backbone', './tab', 'bootstrap'], function (
                 this._$tabList = tabList;
                 this.el = tabList.get();
 
-//                if(_.has(this.options, 'toolPalette')){
-//                    _.get(this.options, 'toolPalette').render();
-//                }
+               if(_.has(this.options, 'toolPalette')){
+                   _.get(this.options, 'toolPalette').render();
+               }
             },
 
             hideTabComponents: function () {

@@ -15,7 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-define(['require','log', 'jquery', 'd3', 'backbone', './tool-view'], function (require, log, $, d3, Backbone, ToolView) {
+define(['require','log', 'jquery', 'backbone', './tool-view'], function (require, log, $, Backbone, ToolView) {
 
     var toolGroupView = Backbone.View.extend({
 
@@ -36,7 +36,7 @@ define(['require','log', 'jquery', 'd3', 'backbone', './tool-view'], function (r
             groupHeaderDiv.attr('class', "tool-group-header");
 
             var groupTitle = $("<a></a>");
-            groupHeaderDiv.append(groupTitle)
+            groupHeaderDiv.append(groupTitle);
             groupTitle.attr('class', "tool-group-header-title")
                       .text(this.model.attributes.toolGroupName);
 
