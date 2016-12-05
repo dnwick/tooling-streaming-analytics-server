@@ -62,15 +62,15 @@
             this.$el.tooltip();
             parent.append(this.$el);
 
-            this.$el.draggable({
-                helper: _.isUndefined(createCloneCallback) ?  'clone' : createCloneCallback(self),
-                cursor: 'move',
-                cursorAt: _.isUndefined(dragCursorOffset) ?  { left: -2, top: -2 } : dragCursorOffset,
-                zIndex: 10001,
-                stop: this.createHandleDragStartEvent(),
-                start : this.createHandleDragStartEvent(),
-                drag:this.createHandleDragStartEvent()
-            });
+            // this.$el.draggable({
+            //     helper: _.isUndefined(createCloneCallback) ?  'clone' : createCloneCallback(self),
+            //     cursor: 'move',
+            //     cursorAt: _.isUndefined(dragCursorOffset) ?  { left: -2, top: -2 } : dragCursorOffset,
+            //     zIndex: 10001
+            //     // stop: this.createHandleDragStartEvent(),
+            //     // start : this.createHandleDragStartEvent(),
+            //     // drag:this.createHandleDragStartEvent()
+            // });
 
             return this;
         }

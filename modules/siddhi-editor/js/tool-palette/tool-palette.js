@@ -15,8 +15,8 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-define(['require', 'log', 'jquery', 'backbone','./tool-group'],
-    function (require, log, $, Backbone, ToolGroupView, ToolGroup) {
+define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-group'],
+    function (require, log, $, Backbone, ToolGroupView, ToolGroup ) {
 
     var ToolPalette = Backbone.View.extend({
         initialize: function (options) {
@@ -35,7 +35,7 @@ define(['require', 'log', 'jquery', 'backbone','./tool-group'],
             }
             this._$parent_el = container;
             this._options = options;
-            //this._initTools();
+             this._initTools();
             //this.dragDropManager = new DragDropManager();
             this.commandManager = options.application.commandManager;
             this._renderCount = 0;
@@ -48,23 +48,78 @@ define(['require', 'log', 'jquery', 'backbone','./tool-group'],
         _initTools: function(){
 
             var _toolGroups = [];
-            // Create main tool group
+
+
+            var definitionTools = [
+                {
+                    id : "stream",
+                    title : "Stream",
+                    icon : "../siddhi-editor/images/stream.png"
+                },
+                {
+                    id : "window-stream",
+                    title : "window",
+                    icon : "../siddhi-editor/images/windowStream.png"
+                }
+
+            ];
             var mainToolGroup = new ToolGroup({
                 toolGroupName: "Elements",
                 toolGroupID: "main-tool-group",
-                toolDefinitions: MainElements.lifelines
+                toolDefinitions: definitionTools
             });
             _toolGroups.push(mainToolGroup);
-
-            // Create mediators tool group
-            var mediatorsToolGroup = new ToolGroup({
-                toolGroupName: "Mediators",
-                toolGroupID: "mediators-tool-group",
-                toolDefinitions: _.assign({},Processors.manipulators, Processors.flowControllers)
+            var queryTools =[
+                {
+                    id : "pass-through",
+                    title : "Pass Through",
+                    icon : "../siddhi-editor/images/passthrough.png"
+                },
+                {
+                    id : "filter-query",
+                    title : "Filter Query",
+                    icon : "../siddhi-editor/images/filter.png"
+                },
+                {
+                    id : "window-query",
+                    title : "Window Query",
+                    icon : "../siddhi-editor/images/windowQuery.png"
+                },
+                {
+                    id : "join-query",
+                    title : "Join Query",
+                    icon : "../siddhi-editor/images/join.png"
+                },
+                {
+                    id : "pattern",
+                    title : "Pattern",
+                    icon : "../siddhi-editor/images/pattern.png"
+                }
+                ];
+            var queryToolGroup = new ToolGroup({
+                    toolGroupName: "Queries",
+                    toolGroupID: "query-tool-group",
+                    toolDefinitions: queryTools
             });
-            _toolGroups.push(mediatorsToolGroup);
-
+            _toolGroups.push(queryToolGroup);
             this._toolGroups = _toolGroups;
+            // // Create main tool group
+            // var mainToolGroup = new ToolGroup({
+            //     toolGroupName: "Elements",
+            //     toolGroupID: "main-tool-group",
+            //     toolDefinitions: MainElements.lifelines
+            // });
+            // _toolGroups.push(mainToolGroup);
+            //
+            // // Create mediators tool group
+            // var mediatorsToolGroup = new ToolGroup({
+            //     toolGroupName: "Mediators",
+            //     toolGroupID: "mediators-tool-group",
+            //     toolDefinitions: _.assign({},Processors.manipulators, Processors.flowControllers)
+            // });
+            // _toolGroups.push(mediatorsToolGroup);
+            //
+            // this._toolGroups = _toolGroups;
 
         },
 
