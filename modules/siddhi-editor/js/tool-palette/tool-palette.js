@@ -43,7 +43,7 @@ define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-gro
          resetToolGroup: function(){
            this._toolGroups = [];
              $("#tool-group-main-tool-group").remove();
-             $("#tool-group-mediators-tool-group").remove();
+             $("#tool-group-query-tool-group").remove();
          },
         _initTools: function(){
 
