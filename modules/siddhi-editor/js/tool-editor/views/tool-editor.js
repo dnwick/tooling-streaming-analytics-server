@@ -16,9 +16,9 @@
  * under the License.
  */
 
-define(['require', 'jquery', 'backbone', 'lodash','log'],
+define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
 
-    function (require, $, Backbone,  _,log) {
+    function (require, $, Backbone,  _,log,DesignView) {
 
     var ServicePreview = Backbone.View.extend(
         /** @lends ServicePreview.prototype */
@@ -55,10 +55,10 @@ define(['require', 'jquery', 'backbone', 'lodash','log'],
                 log.error(errMsg);
                 throw errMsg;
             }
-            var serviceViewOpts = {};
-            _.set(serviceViewOpts, 'container', canvasContainer.get(0));
+            var designViewOpts = {};
+            _.set(designViewOpts, 'container', canvasContainer.get(0));
             // _.set(serviceViewOpts, 'toolPalette', this.options.toolPalette);
-           // var serviceView = new ServiceView(serviceViewOpts);
+            var designView = new DesignView(designViewOpts);
 
             //serviceView.render();
 
@@ -71,6 +71,7 @@ define(['require', 'jquery', 'backbone', 'lodash','log'],
             //var sourceView = new SourceView(sourceViewOptions);
 
             toggleSourceIcon.on('click', function () {
+
                 console.log(canvasContainer);
                 canvasContainer.removeClass('show-div').addClass('hide-div');
                 previewContainer.removeClass('show-div').addClass('hide-div');
