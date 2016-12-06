@@ -15,9 +15,9 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-define(['require', 'log', 'jquery','backbone', 'lodash','jquery_ui'],
+define(['require', 'log', 'jquery', 'jsplumb','backbone', 'lodash','jquery_ui'],
 
-function (require, log, $,Backbone, _
+function (require, log, $, _jsPlumb ,Backbone, _
 
 ) {
 
@@ -31,14 +31,38 @@ function (require, log, $,Backbone, _
              * @param {Object} options Rendering options for the view
              */
             initialize: function (opts) {
-
+                var i =0;
                 this.options = opts;
 
                 console.log(this.options.container);
                 $(this.options.container).append("<div class='innerContainer' id='container1'>");
                 //alert(($(this.options.container)).attr('class'));
+                _jsPlumb.ready(function() {
 
+                    _jsPlumb.Defaults.PaintStyle = {
+                        strokeStyle: "darkblue",
+                        outlineColor: "transparent",
+                        outlineWidth: "25",
+                        lineWidth: 2
+                    };
+                    _jsPlumb.Defaults.HoverPaintStyle = {strokeStyle: 'darkblue', lineWidth: 3};
+                    _jsPlumb.Defaults.EndpointStyle = {radius: 3};
+                    _jsPlumb.Defaults.Overlays = [["Arrow", {location: 1.0, id: "arrow"}]];
+                    _jsPlumb.importDefaults({
+                        ConnectionsDetachable: false,
+                        Connector: ["Bezier", {curviness: 50}]
+                    });
+                    _jsPlumb.setContainer($(opts.container));
 
+                    $(opts.container).droppable
+                    ({
+                        accept: '#stream, #window-stream, #pass-through, #filter-query,  #join-query, #window-query, #pattern ',
+                        drop: function (e, ui) {
+                            console.log(i);
+                            i++;
+                        }
+                    });
+                });
             }
 
         });

@@ -25,7 +25,7 @@
 
         initialize: function (options) {
             _.extend(this, _.pick(options, ["toolPalette"]));
-        },
+       },
 
         createHandleDragStopEvent: function (event, ui) {
             this.toolPalette.dragDropManager.reset();
@@ -61,7 +61,13 @@
             this.$el.html(this.toolTemplate(this.model.attributes));
             this.$el.tooltip();
             parent.append(this.$el);
-
+            var id = '#'+this.model.id;
+            $(id).draggable({
+                helper: 'clone',
+                cursor: 'pointer',
+                tolerance: 'fit',
+                revert: true
+            });
             // this.$el.draggable({
             //     helper: _.isUndefined(createCloneCallback) ?  'clone' : createCloneCallback(self),
             //     cursor: 'move',

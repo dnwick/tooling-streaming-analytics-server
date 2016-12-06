@@ -61,7 +61,6 @@ define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-gro
                     title : "window",
                     icon : "../siddhi-editor/images/windowStream.png"
                 }
-
             ];
             var mainToolGroup = new ToolGroup({
                 toolGroupName: "Elements",
@@ -69,6 +68,7 @@ define(['require', 'log', 'jquery', 'backbone', './tool-group-view', './tool-gro
                 toolDefinitions: definitionTools
             });
             _toolGroups.push(mainToolGroup);
+
             var queryTools =[
                 {
                     id : "pass-through",
