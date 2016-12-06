@@ -61,6 +61,9 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
             var designViewOpts = {};
             _.set(designViewOpts, 'container', canvasContainer.get(0));
             //_.set(serviceViewOpts, 'toolPalette', this.options.toolPalette);
+
+            //use this line to assign dynamic id for canvas and pass the canvas id to initialize jsplumb
+            canvasContainer.attr('id', 'canvasId1');
             var designView = new DesignView(designViewOpts);
 
             //serviceView.render();

@@ -34,9 +34,6 @@ function (require, log, $, _jsPlumb ,Backbone, _
                 var i =0;
                 this.options = opts;
 
-                console.log(this.options.container);
-                $(this.options.container).append("<div class='innerContainer' id='container1'>");
-                //alert(($(this.options.container)).attr('class'));
                 _jsPlumb.ready(function() {
 
                     _jsPlumb.Defaults.PaintStyle = {
