@@ -34,6 +34,7 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
                 throw "container is not defined."
             }
             var container = $(_.get(options, 'container'));
+            var toolPallete = $(_.get(options, 'toolPalette'));
             if(!container.length > 0) {
                 throw "container not found."
             }
@@ -50,13 +51,14 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
             var toggleSourceIcon = $(_.get(this.options, 'toggle_controls.sourceIcon')).find("img");
             var toggleDesignIcon = $(_.get(this.options, 'toggle_controls.designIcon')).find("img");
             var tabContentContainer = $(_.get(this.options, 'tabs_container'));
+            var toolPallette = _.get(this.options, 'toolPalette._$parent_el');
+
             if(!canvasContainer.length > 0){
                 var errMsg = 'cannot find container to render svg';
                 log.error(errMsg);
                 throw errMsg;
             }
             var designViewOpts = {};
-            console.log(canvasContainer);
             _.set(designViewOpts, 'container', canvasContainer.get(0));
             //_.set(serviceViewOpts, 'toolPalette', this.options.toolPalette);
             var designView = new DesignView(designViewOpts);
@@ -78,18 +80,20 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
                 toggleControlsContainer.find('.toggle-to-source').removeClass('show-div').addClass('hide-div');
                 toggleControlsContainer.find('.toggle-to-design').removeClass('hide-div').addClass('show-div');
                 sourceContainer.removeClass('source-view-disabled').addClass('source-view-enabled');
+                toolPallette.addClass('hide-div');
+
 
                 // Remove the padding added for the tab-content
                 // TODO: this value changes dynamically and the corresponding value should be deducted from the padding
                 tabContentContainer.removeClass('tab-content-default');
 
                 // Get the parsed source from the design and pass it to the ace editor rendering
-                var parsedSource = serviceView.model.parseTree();
-                parsedSource = Beautify.js_beautify(parsedSource);
-                var sourceViewOptions = {
-                    source: parsedSource
-                };
-                sourceView.render(sourceViewOptions);
+//                var parsedSource = serviceView.model.parseTree();
+//                parsedSource = Beautify.js_beautify(parsedSource);
+//                var sourceViewOptions = {
+//                    source: parsedSource
+//                };
+//                sourceView.render(sourceViewOptions);
             });
 
             toggleDesignIcon.on('click', function () {
@@ -100,6 +104,7 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design'],
                 sourceContainer.removeClass('source-view-enabled').addClass('source-view-disabled');
                 // Add the padding for the tab-content
                 tabContentContainer.addClass('tab-content-default');
+                toolPallette.removeClass('hide-div').addClass('show-div');
             });
 
         }

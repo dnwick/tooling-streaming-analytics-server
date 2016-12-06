@@ -35,7 +35,7 @@ define(['require', 'log', 'jquery', 'lodash', './tab','workspace','toolEditor'],
         render: function () {
             Tab.prototype.render.call(this);
             var serviceEditorOpts = _.get(this.options, 'service_editor');
-           // _.set(serviceEditorOpts, 'toolPalette', this.getParent().options.toolPalette);
+            _.set(serviceEditorOpts, 'toolPalette', this.getParent().options.toolPalette);
             _.set(serviceEditorOpts, 'container', this.$el.get(0));
             _.set(serviceEditorOpts, 'tabs_container', _.get(this.options, 'tabs_container'));
             var toolEditor = new ToolEditor.Views.ToolEditor(serviceEditorOpts);

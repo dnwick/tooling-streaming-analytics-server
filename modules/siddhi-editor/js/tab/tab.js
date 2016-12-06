@@ -50,6 +50,7 @@ define(['log', 'backbone'], function (log, Backbone) {
 
             // create the tab template
             var tab = this._template.children('div').clone();
+
             this.getParent().getTabContainer().append(tab);
             var tabClass = _.get(this.options, 'cssClass.tab');
             tab.addClass(tabClass);
