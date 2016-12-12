@@ -14,30 +14,23 @@
  * limitations under the License.
  */
 
-requirejs.config({
-    baseUrl: window.location.protocol + "//" +
-                window.location.host +
-                window.location.pathname.split("/").slice(0, -3).join("/") +
-                "/plugin",
-    paths: {
-        jquery: "lib/jquery.min",
-        ace: "lib/ace-editor"
-    },
-    map: {
-        "*": {
-            jQuery: "jquery"
+define(['require', 'backbone', 'app/source-editor/editor'],
+function (require, Backbone, SiddhiEditor) {
+
+    var SourceView = Backbone.View.extend({
+        initialize: function (options) {
+            this.options = options;
+            this.mainEditor = new SiddhiEditor({
+                divID: options.sourceContainer,
+                realTimeValidation: true,
+                autoCompletion: true
+            });
+        },
+        render: function (options) {
+            this.mainEditor.setContent((options.source ? options.source : ""));
+            $(this.options.sourceContainer).show();
         }
-    }
-});
-
-require(["js/siddhi-editor"], function(SiddhiEditor) {
-
-    "use strict";   // JS strict mode
-
-    // Initializing the Siddhi Editor
-    new SiddhiEditor({
-        divID: "editor",
-        realTimeValidation: true,
-        autoCompletion: true
     });
+
+    return SourceView;
 });

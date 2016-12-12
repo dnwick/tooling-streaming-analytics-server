@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * HTTP Responses for siddhi editor related requests
  */
 @Path("/siddhi-editor")
-public class SiddhiEditorEndpoint {
+public class SourceEditorEndpoint {
     @POST
     @Path("/validate")
     public Response validateExecutionPlan(String validationRequestString) {
