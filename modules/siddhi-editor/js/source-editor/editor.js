@@ -93,14 +93,6 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
             enableMultiselect: false
         });
 
-        // Adding the default text into the editor
-        aceEditor.setValue("/* Enter a unique ExecutionPlan */\n" +
-            "@Plan:name('ExecutionPlan')\n\n" +
-            "/* Enter a unique description for ExecutionPlan */\n" +
-            "-- @Plan:description('ExecutionPlan')\n\n" +
-            "/* define streams/tables and write queries here ... */\n\n", 1);
-        aceEditor.focus();
-
         // State variables for error checking and highlighting
         self.state = {};
         self.state.syntaxErrorList = [];        // To save the syntax Errors with line numbers
@@ -410,7 +402,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
             if (worker) {
                 worker.terminate();
             }
-            worker = new Worker(constants.BASE_URL + "js/antlr-worker.js");
+            worker = new Worker("js/source-editor/antlr-worker.js");
             self.init();
         };
 

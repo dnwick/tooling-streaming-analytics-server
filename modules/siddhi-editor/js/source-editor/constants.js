@@ -45,20 +45,8 @@ define(function() {
         SNIPPET_SIDDHI_CONTEXT: "siddhi"        // Context provided to the snippet manager to register the snippets
     };
 
-    /*
-     * Finding the base url of the plugin
-     * Get "src" attribute of the <script> tag for the current file
-     * Last tag in the array since tags after that are not yet added to it
-     */
-    var scripts = document.getElementsByTagName("script");
-    var relativePathToCurrentJS = scripts[scripts.length - 1].getAttribute("src");
-    constants.BASE_URL =
-        relativePathToCurrentJS.substring(
-            0, relativePathToCurrentJS.length - "lib/requirejs-2.3.2/require.js".length
-        );
-
     // Server side validation related constants
-    constants.SERVER_URL = "http://localhost:8080/";
+    constants.SERVER_URL = "http://localhost:8288/";
     constants.SERVER_SIDE_VALIDATION_DELAY = 2000;      // Token tooltips are also updated after this delay
 
     constants.TOOLTIP_SHOW_DELAY = 1000;    // Time the user needs to hover the mouse to get the tooltip

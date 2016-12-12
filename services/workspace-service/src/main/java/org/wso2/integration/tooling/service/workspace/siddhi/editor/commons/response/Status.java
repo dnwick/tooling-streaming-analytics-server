@@ -15,8 +15,7 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-
-package org.wso2.siddhi.editor.api.commons.response;
+package org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response;
 
 /**
  * Constants used for returning responses for API requests

@@ -1,14 +1,14 @@
-package org.wso2.siddhi.editor.api;
+package org.wso2.integration.tooling.service.workspace.rest;
 
 import com.google.gson.Gson;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.request.ValidationRequest;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.ErrorResponse;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.ResponseFactory;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.Status;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.ValidationSuccessResponse;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.core.MetaDataUtils;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
-import org.wso2.siddhi.editor.api.commons.request.ValidationRequest;
-import org.wso2.siddhi.editor.api.commons.response.ErrorResponse;
-import org.wso2.siddhi.editor.api.commons.response.ResponseFactory;
-import org.wso2.siddhi.editor.api.commons.response.Status;
-import org.wso2.siddhi.editor.api.commons.response.ValidationSuccessResponse;
-import org.wso2.siddhi.editor.api.core.MetaDataUtils;
 import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 
 import javax.ws.rs.GET;
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * HTTP Responses for siddhi editor related requests
  */
 @Path("/siddhi-editor")
-public class SourceEditorEndpoint {
+public class SourceEditorService {
     @POST
     @Path("/validate")
     public Response validateExecutionPlan(String validationRequestString) {

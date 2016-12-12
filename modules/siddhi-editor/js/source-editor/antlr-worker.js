@@ -26,7 +26,7 @@
  * This is required since web worker runs isolated from everything else
  * constants.js is imported by the main html file
  */
-importScripts("../lib/smoothie-require/require.js");
+importScripts("../../commons/lib/smoothie-require/require.js");
 
 /*
  * This holds all SiddhiEditor related data that is shared among antlr web worker related js scripts
