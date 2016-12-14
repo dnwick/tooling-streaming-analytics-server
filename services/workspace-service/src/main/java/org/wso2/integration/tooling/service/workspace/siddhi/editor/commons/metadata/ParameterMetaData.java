@@ -27,6 +27,7 @@ public class ParameterMetaData {
     private String name;
     private List<String> type;
     private Boolean optional;
+    private String description;
 
     public String getName() {
         return name;
@@ -44,11 +45,19 @@ public class ParameterMetaData {
         this.type = type;
     }
 
-    public Boolean isOptional() {
+    public Boolean getOptional() {
         return optional;
     }
 
     public void setOptional(Boolean optional) {
         this.optional = optional;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

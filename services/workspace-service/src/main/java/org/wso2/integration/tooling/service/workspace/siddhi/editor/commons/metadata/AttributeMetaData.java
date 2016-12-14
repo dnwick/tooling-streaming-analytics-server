@@ -19,9 +19,14 @@ package org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.met
 
 import java.util.List;
 
+/**
+ * For storing attribute meta data of the the additional attributes added in return events of a stream processor
+ * Used in JSON responses
+ */
 public class AttributeMetaData {
     private String name;
     private List<String> type;
+    private String description;
 
     public String getName() {
         return name;
@@ -37,5 +42,13 @@ public class AttributeMetaData {
 
     public void setType(List<String> type) {
         this.type = type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

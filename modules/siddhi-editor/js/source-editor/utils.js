@@ -64,14 +64,17 @@ define(["./constants"], function (constants) {
         if (metaData.parameters) {
             description += "Parameters - " + generateAttributeListDescription(metaData.parameters);
         }
-        if (metaData.returnType) {
-            description += "Return Type - ";
-            if (metaData.returnType.length > 0) {
-                description += metaData.returnType.join(" | ").toUpperCase();
+        if (metaData.returnType && metaData.returnType.type) {
+            var returnTypeDescription = "Return Type - ";
+            if (metaData.returnType.type.length > 0) {
+                returnTypeDescription += metaData.returnType.type.join(" | ").toUpperCase();
+                if (metaData.returnType.description) {
+                    returnTypeDescription += " - " + metaData.returnType.description;
+                }
             } else {
-                description += "none";
+                returnTypeDescription += "none";
             }
-            description += "<br><br>";
+            description += self.wordWrap(returnTypeDescription, 100) + "<br><br>";
         }
         if (metaData.returnEvent) {
             description += "Additional Attributes in Return Event - " +
@@ -198,13 +201,12 @@ define(["./constants"], function (constants) {
         if (attributeList.length > 0) {
             description += "<ul>";
             for (var j = 0; j < attributeList.length; j++) {
-                description += "<li>" +
+                description += "<li>" + self.wordWrap(
                     attributeList[j].name +
                     (attributeList[j].optional ? " (optional)" : "") +
-                    (attributeList[j].type.length > 0 ?
-                    " - " + attributeList[j].type.join(" | ").toUpperCase() :
-                        "") +
-                    "</li>";
+                    (attributeList[j].type.length > 0 ? " - " + attributeList[j].type.join(" | ").toUpperCase() : "") +
+                    (attributeList[j].description ? " - " + attributeList[j].description : "")
+                    , 80) + "</li>";
             }
             description += "</ul>";
         } else {

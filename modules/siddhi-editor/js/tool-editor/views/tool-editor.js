@@ -108,6 +108,8 @@ define(['require', 'jquery', 'backbone', 'lodash','log','./design', "./source"],
                 // Add the padding for the tab-content
                 tabContentContainer.addClass('tab-content-default');
                 toolPallette.removeClass('hide-div').addClass('show-div');
+
+                // var editorContent = sourceView.mainEditor.getContent();
             });
 
         }

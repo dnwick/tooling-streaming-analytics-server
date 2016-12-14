@@ -76,6 +76,11 @@
             <artifactId>siddhi-core</artifactId>
             <version>${siddhi.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.wso2.siddhi</groupId>
+            <artifactId>siddhi-annotations</artifactId>
+            <version>${siddhi.version}</version>
+        </dependency>
     </dependencies>
 
     <properties>

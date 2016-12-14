@@ -21,19 +21,20 @@ import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.meta
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.MetaData;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ParameterMetaData;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ProcessorMetaData;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ReturnTypeMetaData;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.executor.function.FunctionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.StreamProcessor;
 import org.wso2.siddhi.core.query.processor.stream.function.StreamFunctionProcessor;
 import org.wso2.siddhi.core.query.processor.stream.window.WindowProcessor;
 import org.wso2.siddhi.core.query.selector.attribute.aggregator.AttributeAggregator;
-import org.wso2.siddhi.core.util.docs.annotation.AdditionalAttribute;
-import org.wso2.siddhi.core.util.docs.annotation.Description;
-import org.wso2.siddhi.core.util.docs.annotation.Example;
-import org.wso2.siddhi.core.util.docs.annotation.Parameter;
-import org.wso2.siddhi.core.util.docs.annotation.Parameters;
-import org.wso2.siddhi.core.util.docs.annotation.Return;
-import org.wso2.siddhi.core.util.docs.annotation.ReturnEvent;
+import org.wso2.siddhi.annotation.AdditionalAttribute;
+import org.wso2.siddhi.annotation.Description;
+import org.wso2.siddhi.annotation.Example;
+import org.wso2.siddhi.annotation.Parameter;
+import org.wso2.siddhi.annotation.Parameters;
+import org.wso2.siddhi.annotation.Return;
+import org.wso2.siddhi.annotation.ReturnEvent;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -287,6 +288,7 @@ public class MetaDataUtils {
                         parameterMetaData.setName(parameter.name());
                         parameterMetaData.setType(Arrays.asList(parameter.type()));
                         parameterMetaData.setOptional(parameter.optional());
+                        parameterMetaData.setDescription(parameter.description());
                         parameterMetaDataList.add(parameterMetaData);
                     }
                     processorMetaData.setParameters(parameterMetaDataList);
@@ -303,13 +305,20 @@ public class MetaDataUtils {
                 }
 
                 // Adding Return annotation data
-                if (STREAM_FUNCTION_PROCESSOR.equals(processorType) ||
+                ReturnTypeMetaData returnTypeMetaData = null;
+                if (returnAnnotation != null) {
+                    returnTypeMetaData = new ReturnTypeMetaData();
+                    returnTypeMetaData.setType(Arrays.asList(returnAnnotation.type()));
+                    returnTypeMetaData.setDescription(returnAnnotation.description());
+                } else if (STREAM_FUNCTION_PROCESSOR.equals(processorType) ||
                         STREAM_PROCESSOR.equals(processorType) ||
                         WINDOW_PROCESSOR.equals(processorType)) {
                     // Setting the return type to event for stream functions, stream processors and windows
-                    processorMetaData.setReturnType(Collections.singletonList("event"));
-                } else if (returnAnnotation != null) {
-                    processorMetaData.setReturnType(Arrays.asList(returnAnnotation.value()));
+                    returnTypeMetaData = new ReturnTypeMetaData();
+                    returnTypeMetaData.setType(Collections.singletonList("event"));
+                }
+                if (returnTypeMetaData != null) {
+                    processorMetaData.setReturnType(returnTypeMetaData);
                 }
 
                 // Adding ReturnEvent annotation data
@@ -321,6 +330,7 @@ public class MetaDataUtils {
                         AttributeMetaData attributeMetaData = new AttributeMetaData();
                         attributeMetaData.setName(additionalAttribute.name());
                         attributeMetaData.setType(Arrays.asList(additionalAttribute.type()));
+                        attributeMetaData.setDescription(additionalAttribute.description());
                         attributeMetaDataList.add(attributeMetaData);
                     }
                     processorMetaData.setReturnEvent(attributeMetaDataList);

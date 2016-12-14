@@ -27,7 +27,7 @@ function (require, Backbone, SiddhiEditor) {
             });
         },
         render: function (options) {
-            this.mainEditor.setContent((options.source ? options.source : ""));
+            this.mainEditor.setContent(options.source);
             $(this.options.sourceContainer).show();
         }
     });
