@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * WSO2 Inc. licenses this file to you under the Apache License,
  * Version 2.0 (the "License"); you may not use this file except
@@ -17,6 +17,8 @@
  */
 package org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata;
 
+import org.wso2.siddhi.annotation.util.DataType;
+
 import java.util.List;
 
 /**
@@ -25,7 +27,7 @@ import java.util.List;
  */
 public class ParameterMetaData {
     private String name;
-    private List<String> type;
+    private List<DataType> type;
     private Boolean optional;
     private String description;
 
@@ -37,11 +39,11 @@ public class ParameterMetaData {
         this.name = name;
     }
 
-    public List<String> getType() {
+    public List<DataType> getType() {
         return type;
     }
 
-    public void setType(List<String> type) {
+    public void setType(List<DataType> type) {
         this.type = type;
     }
 

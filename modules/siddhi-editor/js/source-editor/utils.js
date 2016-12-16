@@ -79,8 +79,9 @@ define(["./constants"], function (constants) {
             description += self.wordWrap(returnTypeDescription, 100) + "<br><br>";
         }
         if (metaData.returnEvent) {
-            description += "Additional Attributes in Return Event - " +
-                generateAttributeListDescription(metaData.returnEvent);
+            description += (metaData.returnEvent.length > 0 ? "Additional Attributes in " : "") +
+                "Return Event" +
+                (metaData.returnEvent.length > 0 ? generateAttributeListDescription(metaData.returnEvent) : "");
         }
         if (metaData.example) {
             description += "Example - <br><br>" +

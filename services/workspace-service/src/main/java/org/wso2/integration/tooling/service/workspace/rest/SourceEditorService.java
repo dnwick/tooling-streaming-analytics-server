@@ -1,3 +1,18 @@
+/*
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.wso2.integration.tooling.service.workspace.rest;
 
 import com.google.gson.Gson;
@@ -6,7 +21,8 @@ import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.resp
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.MetaDataResponse;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.Status;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.response.ValidationSuccessResponse;
-import org.wso2.integration.tooling.service.workspace.siddhi.editor.core.SourceEditorUtils;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.util.MetaDataHolder;
+import org.wso2.integration.tooling.service.workspace.siddhi.editor.util.SourceEditorUtils;
 import org.wso2.siddhi.core.ExecutionPlanRuntime;
 
 import javax.ws.rs.GET;
@@ -16,7 +32,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 /**
- * HTTP Responses for siddhi editor related requests
+ * HTTP Responses for siddhi source editor related requests
  */
 @Path("/siddhi-editor")
 public class SourceEditorService {
@@ -53,7 +69,7 @@ public class SourceEditorService {
         }
 
         return Response.ok(jsonString, MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Origin", "*")     // TODO : remove this header when ports are decided
                 .build();
     }
 
@@ -61,12 +77,12 @@ public class SourceEditorService {
     @Path("/meta-data")
     public Response getMetaData() {
         MetaDataResponse response = new MetaDataResponse(Status.SUCCESS);
-        response.setInBuilt(SourceEditorUtils.getInBuiltProcessorMetaData());
-        response.setExtensions(SourceEditorUtils.getExtensionProcessorMetaData());
+        response.setInBuilt(MetaDataHolder.getInBuiltProcessorMetaData());
+        response.setExtensions(MetaDataHolder.getExtensionProcessorMetaData());
 
         String jsonString = new Gson().toJson(response);
         return Response.ok(jsonString, MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Origin", "*")     // TODO : remove this header when ports are decided
                 .build();
     }
 }

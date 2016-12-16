@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
     "use strict";   // JS strict mode
 
     /*
-     * Loading ave modules
+     * Loading ace modules
      */
     var aceModules = {
         snippetManager: aceSnippetManager.snippetManager,    // Required for changing the snippets used
@@ -204,7 +204,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
      *          ----------------------------------------------
      *                 {
      *                    regex : "regularExpression",
-     *                    handler : "CompletionEngine.$FunctionHandler"     // CONVENTION : function name is started with $ mark
+     *                    handler : "$FunctionHandler"     // CONVENTION : function name is started with $ mark
      *                 }
      *
      */
@@ -228,7 +228,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * Define statement rules starts here
          */
         {
-            regex: "define\\s+[^\\s@]*$",
+            regex: "define\\s+[^\\s]*$",
             handler: ["stream", "table", "trigger", "function", "window"]
         },
         {
@@ -333,32 +333,101 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
 
         /*
          * List of streams defined
+         *
+         * self.streamList = {
+         *      streamName : {
+         *          attributes: {
+         *              attribute1: dataType1,
+         *              attribute2: dataType2
+         *          },
+         *          description: "description to be shown in the tooltip"
+         *      }
+         * }
          */
         self.streamsList = {};
 
         /*
          * Partition list with each partition containing the inner streams
          * This is updated after the stream definitions are received from the server since inner streams are not defined
+         *
+         * self.partitionsList = [
+         *      {
+         *          partition1InnerStream1: {
+         *              attributes: {
+         *                  attribute1: dataType1,
+         *                  attribute2: dataType2
+         *              },
+         *              description: "description to be shown in the tooltip"
+         *          },
+         *          partition1InnerStream2: {
+         *              attributes: {
+         *                  attribute3: dataType3,
+         *                  attribute4: dataType4
+         *              },
+         *              description: "description to be shown in the tooltip"
+         *          }
+         *      },
+         *      {
+         *          partition2InnerStream1: {
+         *              attributes: {
+         *                  attribute5: dataType5,
+         *                  attribute6: dataType6
+         *              },
+         *              description: "description to be shown in the tooltip"
+         *          }
+         *      }
+         * ]
          */
         self.partitionsList = [];
 
         /*
          * List of tables defined
+         *
+         * self.eventTablesList = {
+         *      eventTableName : {
+         *          attributes: {
+         *              attribute1: dataType1,
+         *              attribute2: dataType2
+         *          },
+         *          description: "description to be shown in the tooltip"
+         *      }
+         * }
          */
         self.eventTablesList = {};
 
         /*
          * List of triggers defined
+         *
+         * self.eventTriggersList = {
+         *      eventTriggerName : {
+         *          type: "Time Value | Cron Expression",
+         *          time: *The cron expression or the time value
+         *      }
+         * }
          */
         self.eventTriggersList = {};
 
         /*
          * List of functions defined
+         *
+         * self.evalScriptsList = {
+         *      language: "Language Type",
+         *      returnType: dataType
+         *      functionBody: "Function body inside the braces"
+         * }
          */
         self.evalScriptsList = {};
 
         /*
          * List of windows defined
+         *
+         * self.eventWindowsList = {
+         *      attributes: {
+         *              attribute1: dataType1,
+         *          attribute2: dataType2
+         *      },
+         *      functionOperation: "windowName"
+         * }
          */
         self.eventWindowsList = {};
 
@@ -368,8 +437,8 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * siddhi ExecutionPlanRuntime generates the data
          */
         self.incompleteData = {
-            streams: [],
-            partitions: []
+            streams: [],    // Array of stream names of which definitions are missing
+            partitions: []  // 2D array of inner stream names with the partition number as the index in the outer array
         };
 
         /**
@@ -469,7 +538,8 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          *       caption: "suggestion name",        // caption to be show in the tooltip
          *       value: "suggestion value",         // text added to the editor when the completion is selected
          *       score: 2,                          // priority
-         *       meta: "suggestion type"            // type shown in the tooltip
+         *       description: "description"         // description shown in the tooltip
+         *       meta: "suggestion type"            // type shown in the popup
          * }
          */
         self.completionsList = [];
@@ -579,7 +649,8 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
 
             self.completionsList = [];
 
-            if (/^\s*(?:@(?:.(?!\)))*.\)\s*)?[a-zA-Z_0-9]*$/i.test(editorText)) {
+            var editorTextStatements = editorText.split(";"); // If the last statement is a complete statement this step is important
+            if (/^\s*(?:@(?:.(?!\)))*.\)\s*)?[a-zA-Z_0-9]*$/i.test(editorTextStatements[editorTextStatements.length - 1])) {
                 self.$startOfStatement();
                 aceModules.snippetManager.register(
                     generalInitialSnippets.concat(queryInitialSnippets),
@@ -747,7 +818,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
 
             // Testing to find the relevant suggestion
             if (sourceSuggestionsRegex.test(queryInput)) {
-                // Addings streams, inner streams ,event tables, event triggers, event windows
+                // Adding streams, inner streams ,event tables, event triggers, event windows
                 var isInner = sourceSuggestionsRegex.exec(queryInput)[1] == "#";
                 // Adding stream names if hash is not present: Inner stream and normal streams
                 if (!isInner) {
@@ -1403,7 +1474,8 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
                     addCompletions(getStreamsForAttributesInPartitionCondition().map(function (stream) {
                         return {
                             value: stream,
-                            type: constants.typeToDisplayNameMap[constants.STREAMS]
+                            type: constants.typeToDisplayNameMap[constants.STREAMS],
+                            description: self.streamsList[stream].description
                         };
                     }));
                 }

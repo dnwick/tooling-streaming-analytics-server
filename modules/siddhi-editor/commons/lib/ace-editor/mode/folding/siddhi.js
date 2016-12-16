@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"], function(require, exports, module) {
+define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding/fold_mode"],
+    function(require, exports, module, oop, range) {
 
     "use strict";   // JS strict mode
 
     var oop = require("../../lib/oop");
     var BaseFoldMode = require("./fold_mode").FoldMode;
+    var Range = range.Range;
 
     var SiddhiFoldMode = function() {};
     oop.inherits(SiddhiFoldMode, BaseFoldMode);
@@ -78,7 +80,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
                 }
 
                 if (matchFound) {
-                    return getRangeFromStartPositionToEndToken(session, row, i + match[j].length, endTokenRegexps[j - 1]);
+                    return getRangeFromStartPositionToEndToken(session, row, i + match[j].length, endTokenRegexps[j - 2]);
                 }
             }
 
@@ -102,7 +104,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
                 }
 
                 if (matchFound) {
-                    return getRangeFromEndPositionToStartToken(session, row, i, startTokenRegexps[j - 1]);
+                    return getRangeFromEndPositionToStartToken(session, row, i, startTokenRegexps[j - 2]);
                 }
             }
         };
@@ -121,7 +123,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
         var editorEndRow = session.getLength() - 1;
         var editorEndColumn = session.getLine(editorEndRow).length;
 
-        var editorText = session.doc.getTextRange(SiddhiEditor.Range.fromPoints(
+        var editorText = session.doc.getTextRange(Range.fromPoints(
             {row: startRow, column: startColumn},
             {row: editorEndRow, column: editorEndColumn}
         ));
@@ -137,7 +139,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
                 endTokenColumn++;
             }
             if (endTokenRegexMatch = endTokenRegex.exec(editorText.substring(i))) {
-                var range = SiddhiEditor.Range.fromPoints(
+                var range = Range.fromPoints(
                     {row: startRow, column: startColumn},
                     {row: endTokenRow, column: endTokenColumn - 1}
                 );
@@ -159,7 +161,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
      * @param startTokenRegex Regex of the end token
      */
     function getRangeFromEndPositionToStartToken(session, endRow, endColumn, startTokenRegex) {
-        var editorText = session.doc.getTextRange(SiddhiEditor.Range.fromPoints(
+        var editorText = session.doc.getTextRange(Range.fromPoints(
             {row: 0, column: 0},
             {row: endRow, column: endColumn}
         ));
@@ -175,7 +177,7 @@ define(["require","exports","module","ace/lib/oop","ace/range","ace/mode/folding
                 startTokenColumn--;
             }
             if (startTokenRegexMatch = startTokenRegex.exec(editorText.substring(i - 1))) {
-                var range = SiddhiEditor.Range.fromPoints(
+                var range = Range.fromPoints(
                     {row: startTokenRow, column: startTokenColumn},
                     {row: endRow, column: endColumn}
                 );

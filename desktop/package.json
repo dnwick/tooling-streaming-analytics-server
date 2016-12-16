@@ -4,7 +4,7 @@
   "description": "WSO2 Integration Server Tooling",
   "main": "main.js",
   "scripts": {
-    "start": "electron ../modules/sequence-diagram-editor/index.html",
+    "start": "electron ../modules/siddhi-editor/index.html",
     "clean:dist": "rm -rf ./dist",
     "clean:module": "rm -rf ./modules",
     "copy-module": "mkdir -p modules && cp -r ../modules/* modules && npm run copy-service",

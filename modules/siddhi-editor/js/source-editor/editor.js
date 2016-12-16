@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -238,7 +238,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
          * @private
          */
         function checkForSemanticErrors() {
-            var foundSemanticErrors = false;
+            var lastFoundSemanticErrorLine = Number.MAX_SAFE_INTEGER;
 
             var editorText = aceEditor.getValue();
             // If the user has not typed anything after 3 seconds from his last change, then send the query for semantic check
@@ -296,19 +296,20 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                                         executionPlan: query,
                                         missingStreams: []
                                     }, function (response) {
-                                        if (!foundSemanticErrors && response.status != "SUCCESS" &&
+                                        if (line < lastFoundSemanticErrorLine &&
+                                            response.status != "SUCCESS" &&
                                             Date.now() - self.state.lastEdit >=
                                                     constants.SERVER_SIDE_VALIDATION_DELAY - 100) {
                                             // Update the semanticErrorList
-                                            self.state.semanticErrorList.push({
+                                            self.state.semanticErrorList = [({
                                                 row: line,
                                                 // Change attribute "text" to "html" if html is sent from server
                                                 text: utils.wordWrap(response.message, 100),
                                                 type: "error"
-                                            });
+                                            })];
 
-                                            // Update the state of the foundSemanticErrors to stop sending another server call
-                                            foundSemanticErrors = true;
+                                            // Update the state of the lastFoundSemanticErrorLine to stop sending another server call
+                                            lastFoundSemanticErrorLine = line;
 
                                             // Show the errors in the ace editor gutter
                                             aceEditor.session.setAnnotations(
@@ -319,7 +320,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                                     });
                                 })(self.completionEngine.statementsList[i].line, query);
 
-                                if (foundSemanticErrors ||
+                                if (self.completionEngine.statementsList[i].line > lastFoundSemanticErrorLine ||
                                     Date.now() - self.state.lastEdit <
                                             constants.SERVER_SIDE_VALIDATION_DELAY - 100) {
                                     break;

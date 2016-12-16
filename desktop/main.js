@@ -26,7 +26,7 @@ const electron = require('electron'),
 
 var logger = new Log('info'),
  	logsDir = appDir + path.sep + ".." + path.sep + ".." + path.sep + "logs",
-	pageURL = "file:" + appDir + "/modules/sequence-diagram-editor/index.html",
+	pageURL = "file:" + appDir + "/modules/siddhi-editor/index.html",
 	serviceProcess,
 	mainWindow;
 
