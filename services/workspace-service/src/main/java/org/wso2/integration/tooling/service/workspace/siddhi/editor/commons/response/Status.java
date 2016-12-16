@@ -20,9 +20,6 @@ package org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.res
 /**
  * Constants used for returning responses for API requests
  */
-public class Status {
-    public static final String SUCCESS = "SUCCESS";
-    public static final String ERROR = "ERROR";
-
-    public static final String STATUS = "status";
+public enum Status {
+    SUCCESS, ERROR
 }

@@ -22,17 +22,27 @@ package org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.res
  * All other responses inherits from this apart from custom responses generated using ResponseFactory
  */
 public class GeneralResponse {
-    private String status;
+    private Status status;
+    private String message;
 
-    public GeneralResponse(String status) {
+    public GeneralResponse(Status status, String message) {
         this.status = status;
+        this.message = message;
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

@@ -373,7 +373,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
             }
             $.ajax({
                 type: "POST",
-                url: constants.SERVER_URL + "siddhi-editor/validate",
+                url: constants.SERVER_URL + "siddhi-editor/validator",
                 data: JSON.stringify(data),
                 success: callback
             });

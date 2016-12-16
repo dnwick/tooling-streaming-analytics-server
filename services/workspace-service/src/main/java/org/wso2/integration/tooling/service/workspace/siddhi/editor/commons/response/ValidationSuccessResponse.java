@@ -25,8 +25,8 @@ public class ValidationSuccessResponse extends GeneralResponse {
     private List<AbstractDefinition> streams;
     private List<List<AbstractDefinition>> innerStreams;
 
-    public ValidationSuccessResponse(String status) {
-        super(status);
+    public ValidationSuccessResponse(Status status) {
+        super(status, null);
     }
 
     public List<AbstractDefinition> getStreams() {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2014, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
+ * Copyright (c) 2016, WSO2 Inc. (http://www.wso2.org) All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,16 +31,18 @@ define(["./constants"], function (constants) {
      * @return {string} The word wrapped string
      */
     self.wordWrap = function (str, maxWidth) {
-        for (var i = maxWidth; i < str.length;) {
-            if (/\s/.test(str.charAt(i))) {
-                str = str.substring(0, i) + "\n" + str.substring(i + 1);
-                i += maxWidth + 1;
-            } else {
-                for (var j = i - 1; j > i - maxWidth; j--) {
-                    if (/\s/.test(str.charAt(j))) {
-                        str = str.substring(0, j) + "\n" + str.substring(j + 1);
-                        i = j + maxWidth + 1;
-                        break;
+        if (str) {
+            for (var i = maxWidth; i < str.length;) {
+                if (/\s/.test(str.charAt(i))) {
+                    str = str.substring(0, i) + "\n" + str.substring(i + 1);
+                    i += maxWidth + 1;
+                } else {
+                    for (var j = i - 1; j > i - maxWidth; j--) {
+                        if (/\s/.test(str.charAt(j))) {
+                            str = str.substring(0, j) + "\n" + str.substring(j + 1);
+                            i = j + maxWidth + 1;
+                            break;
+                        }
                     }
                 }
             }

@@ -22,6 +22,7 @@ import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.meta
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ParameterMetaData;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ProcessorMetaData;
 import org.wso2.integration.tooling.service.workspace.siddhi.editor.commons.metadata.ReturnTypeMetaData;
+import org.wso2.siddhi.core.ExecutionPlanRuntime;
 import org.wso2.siddhi.core.SiddhiManager;
 import org.wso2.siddhi.core.executor.function.FunctionExecutor;
 import org.wso2.siddhi.core.query.processor.stream.StreamProcessor;
@@ -35,6 +36,7 @@ import org.wso2.siddhi.annotation.Parameter;
 import org.wso2.siddhi.annotation.Parameters;
 import org.wso2.siddhi.annotation.Return;
 import org.wso2.siddhi.annotation.ReturnEvent;
+import org.wso2.siddhi.query.api.definition.AbstractDefinition;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,13 +49,14 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 
 /**
  * Utility class for getting the meta data for the in built and extension processors in siddhi
  */
-public class MetaDataUtils {
+public class SourceEditorUtils {
     private static String FUNCTION_EXECUTOR = "FunctionExecutor";
     private static String ATTRIBUTE_AGGREGATOR = "AttributeAggregator";
     private static String WINDOW_PROCESSOR = "WindowProcessor";
@@ -69,6 +72,97 @@ public class MetaDataUtils {
         processorTypeToSuperClassMap.put(WINDOW_PROCESSOR, WindowProcessor.class);
         processorTypeToSuperClassMap.put(STREAM_FUNCTION_PROCESSOR, StreamFunctionProcessor.class);
         processorTypeToSuperClassMap.put(STREAM_PROCESSOR, StreamProcessor.class);
+    }
+
+    /**
+     * Validate the execution plan string using the Siddhi Manager
+     * Will return a valid executionPlanRuntime
+     *
+     * @param executionPlan Execution plan string
+     * @return Valid execution plan runtime
+     */
+    public static ExecutionPlanRuntime validateExecutionPlan(String executionPlan) {
+        SiddhiManager siddhiManager = new SiddhiManager();
+        ExecutionPlanRuntime executionPlanRuntime = siddhiManager.createExecutionPlanRuntime(executionPlan);
+        executionPlanRuntime.start();
+        executionPlanRuntime.shutdown();
+        return executionPlanRuntime;
+    }
+
+    /**
+     * Get the definition of the inner streams in the partitions
+     * Inner streams will be separated based on the partition
+     *
+     * @param executionPlanRuntime Execution plan runtime created after validating
+     * @param partitionsWithMissingInnerStreams Required inner stream names separated based on partition it belongs to
+     * @return The inner stream definitions separated base on the partition it belongs to
+     */
+    public static List<List<AbstractDefinition>> getInnerStreamDefinitions(ExecutionPlanRuntime executionPlanRuntime,
+                                                                           List<List<String>> partitionsWithMissingInnerStreams) {
+        List<List<AbstractDefinition>> innerStreamDefinitions = new ArrayList<>();
+
+        // Transforming the element ID to partition inner streams map to element ID no to partition inner streams map
+        Map<Integer, Map<String, AbstractDefinition>> partitionElementIdNoToInnerStreamsMap =
+                new ConcurrentHashMap<>();
+        executionPlanRuntime.getPartitionedInnerStreamDefinitionMap().entrySet().parallelStream().forEach(
+                entry -> partitionElementIdNoToInnerStreamsMap.put(
+                        Integer.parseInt(entry.getKey().split("-")[1]),
+                        entry.getValue()
+                )
+        );
+
+        // Creating an ordered list of partition inner streams based on partition element ID
+        List<Map<String, AbstractDefinition>> rankedPartitionsWithInnerStreams = new ArrayList<>();
+        List<Integer> rankedPartitionElementIds = new ArrayList<>();
+        for (Map.Entry<Integer, Map<String, AbstractDefinition>> entry :
+                partitionElementIdNoToInnerStreamsMap.entrySet()) {
+            int i = 0;
+            for (; i < rankedPartitionsWithInnerStreams.size(); i++) {
+                if (entry.getKey() < rankedPartitionElementIds.get(i)) {
+                    break;
+                }
+            }
+            rankedPartitionsWithInnerStreams.add(i, entry.getValue());
+            rankedPartitionElementIds.add(i, entry.getKey());
+        }
+
+        // Extracting the requested stream definitions from based on the order in rankedPartitionsWithInnerStreams and partitionsWithMissingInnerStreams
+        for (int i = 0; i < partitionsWithMissingInnerStreams.size(); i++) {
+            List<String> partitionWithMissingInnerStreams = partitionsWithMissingInnerStreams.get(i);
+            Map<String, AbstractDefinition> partitionWithInnerStreams = rankedPartitionsWithInnerStreams.get(i);
+            List<AbstractDefinition> innerStreamDefinition = new ArrayList<>();
+
+            for (String missingInnerStream : partitionWithMissingInnerStreams) {
+                AbstractDefinition streamDefinition = partitionWithInnerStreams.get(missingInnerStream);
+                if (streamDefinition != null) {
+                    innerStreamDefinition.add(streamDefinition);
+                }
+            }
+            innerStreamDefinitions.add(innerStreamDefinition);
+        }
+
+        return innerStreamDefinitions;
+    }
+
+    /**
+     * Get the definitions of the streams that are requested
+     * used for fetching the definitions of streams that queries output into without defining them first
+     *
+     * @param executionPlanRuntime Execution plan runtime created after validating
+     * @param missingStreams Required stream names
+     * @return The stream definitions
+     */
+    public static List<AbstractDefinition> getStreamDefinitions(ExecutionPlanRuntime executionPlanRuntime,
+                                                                List<String> missingStreams) {
+        List<AbstractDefinition> streamDefinitions = new ArrayList<>();
+        Map<String, AbstractDefinition> streamDefinitionMap = executionPlanRuntime.getStreamDefinitionMap();
+        for (String stream : missingStreams) {
+            AbstractDefinition streamDefinition = streamDefinitionMap.get(stream);
+            if (streamDefinition != null) {
+                streamDefinitions.add(streamDefinition);
+            }
+        }
+        return streamDefinitions;
     }
 
     /**
