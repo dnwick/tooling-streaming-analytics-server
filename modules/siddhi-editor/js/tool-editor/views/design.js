@@ -36,17 +36,25 @@ function (require, log, $, _jsPlumb ,Backbone, _
 
                 _jsPlumb.ready(function() {
 
-                    _jsPlumb.Defaults.PaintStyle = {
-                        strokeStyle: "darkblue",
-                        outlineColor: "transparent",
-                        outlineWidth: "25",
-                        lineWidth: 2
-                    };
-                    _jsPlumb.Defaults.HoverPaintStyle = {strokeStyle: 'darkblue', lineWidth: 3};
-                    _jsPlumb.Defaults.EndpointStyle = {radius: 3};
-                    _jsPlumb.Defaults.Overlays = [["Arrow", {location: 1.0, id: "arrow"}]];
                     _jsPlumb.importDefaults({
-                        ConnectionsDetachable: false,
+                        PaintStyle : {
+                            strokeWidth:2,
+                            stroke: 'darkblue',
+                            outlineStroke:"transparent",
+                            outlineWidth:"5"
+                            // lineWidth: 2
+                        },
+                        HoverPaintStyle :{
+                            strokeStyle: 'darkblue',
+                            strokeWidth : 3
+                        },
+                        Overlays : [["Arrow",  {location:1.0, id:"arrow" }]],
+                        DragOptions : { cursor: "crosshair" },
+                        Endpoints : [ [ "Dot", { radius:7 } ], [ "Dot", { radius:11 } ] ],
+                        EndpointStyle : {
+                            radius: 3
+                        },
+                        ConnectionsDetachable:false,
                         Connector: ["Bezier", {curviness: 50}]
                     });
                     _jsPlumb.setContainer($(opts.container));
