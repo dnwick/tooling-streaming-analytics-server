@@ -102,7 +102,7 @@ define(["./constants"], function (constants) {
     self.generateDescriptionForEvalScript = function (evalScriptName, metaData) {
         return "<div><strong>Eval Script</strong> - " + evalScriptName + "<br><ul>" +
             "<li>Language - " + metaData.language + "</li>" +
-            "<li>Return Type - " + metaData.returnType.join(" | ").toUpperCase() + "</li>" +
+            "<li>Return Type - " + metaData.returnType.toUpperCase() + "</li>" +
             "<li>Function Body -" + "<br><br>" + metaData.functionBody + "</li>" +
             "</ul></div>";
     };

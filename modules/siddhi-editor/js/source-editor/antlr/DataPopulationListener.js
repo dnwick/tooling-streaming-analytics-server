@@ -99,7 +99,7 @@ DataPopulationListener.prototype.exitDefinition_function = function (ctx) {
     var evalScriptName = this.walker.utils.getTextFromANTLRCtx(ctx.function_name());
     this.walker.completionData.evalScriptsList[evalScriptName] = {
         language: this.walker.utils.getTextFromANTLRCtx(ctx.language_name()),
-        returnType: [this.walker.utils.getTextFromANTLRCtx(ctx.attribute_type())],
+        returnType: this.walker.utils.getTextFromANTLRCtx(ctx.attribute_type()),
         functionBody: this.walker.utils.getTextFromANTLRCtx(ctx.function_body())
     };
 

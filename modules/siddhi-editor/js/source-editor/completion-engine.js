@@ -335,13 +335,14 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * List of streams defined
          *
          * self.streamList = {
-         *      streamName : {
+         *      streamName: {
          *          attributes: {
-         *              attribute1: dataType1,
-         *              attribute2: dataType2
+         *              attribute1: "dataType1",
+         *              attribute2: "dataType2"
          *          },
          *          description: "description to be shown in the tooltip"
-         *      }
+         *      },
+         *      ...
          * }
          */
         self.streamsList = {};
@@ -354,28 +355,31 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          *      {
          *          partition1InnerStream1: {
          *              attributes: {
-         *                  attribute1: dataType1,
-         *                  attribute2: dataType2
+         *                  attribute1: "dataType1",
+         *                  attribute2: "dataType2",
          *              },
          *              description: "description to be shown in the tooltip"
          *          },
          *          partition1InnerStream2: {
          *              attributes: {
-         *                  attribute3: dataType3,
-         *                  attribute4: dataType4
+         *                  attribute3: "dataType1",
+         *                  attribute4: "dataType2"
          *              },
          *              description: "description to be shown in the tooltip"
-         *          }
+         *          },
+         *          ...
          *      },
          *      {
          *          partition2InnerStream1: {
          *              attributes: {
-         *                  attribute5: dataType5,
-         *                  attribute6: dataType6
+         *                  attribute5: "dataType1",
+         *                  attribute6: "dataType2"
          *              },
          *              description: "description to be shown in the tooltip"
-         *          }
-         *      }
+         *          },
+         *          ...
+         *      },
+         *      ...
          * ]
          */
         self.partitionsList = [];
@@ -384,13 +388,14 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * List of tables defined
          *
          * self.eventTablesList = {
-         *      eventTableName : {
+         *      eventTableName: {
          *          attributes: {
-         *              attribute1: dataType1,
-         *              attribute2: dataType2
+         *              attribute1: "dataType1",
+         *              attribute2: "dataType2"
          *          },
          *          description: "description to be shown in the tooltip"
-         *      }
+         *      },
+         *      ...
          * }
          */
         self.eventTablesList = {};
@@ -399,10 +404,12 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * List of triggers defined
          *
          * self.eventTriggersList = {
-         *      eventTriggerName : {
+         *      eventTriggerName: {
          *          type: "Time Value | Cron Expression",
-         *          time: *The cron expression or the time value
-         *      }
+         *          time: *The cron expression or the time value,
+         *          description: "description to be shown in the tooltip"
+         *      },
+         *      ...
          * }
          */
         self.eventTriggersList = {};
@@ -411,9 +418,13 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * List of functions defined
          *
          * self.evalScriptsList = {
-         *      language: "Language Type",
-         *      returnType: dataType
-         *      functionBody: "Function body inside the braces"
+         *      evalScriptName: {
+         *          language: "Language Type",
+         *          returnType: “dataType”
+         *          functionBody: "Function body inside the braces",
+         *          description: "description to be shown in the tooltip"
+         *      },
+         *      ...
          * }
          */
         self.evalScriptsList = {};
@@ -422,11 +433,15 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
          * List of windows defined
          *
          * self.eventWindowsList = {
-         *      attributes: {
+         *      eventWindowName: {
+         *          attributes: {
          *              attribute1: dataType1,
-         *          attribute2: dataType2
+         *              attribute2: dataType2
+         *          },
+         *          functionOperation: "windowName",
+         *          description: "description to be shown in the tooltip"
          *      },
-         *      functionOperation: "windowName"
+         *      ...
          * }
          */
         self.eventWindowsList = {};
@@ -2162,7 +2177,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "ace/snippets", "ace/rang
     CompletionEngine.loadMetaData = function (onSuccessCallback, onErrorCallback) {
         $.ajax({
             type: "GET",
-            url: constants.SERVER_URL + "siddhi-editor/meta-data",
+            url: constants.SERVER_URL + "siddhi-editor/metadata",
             success: function (response, textStatus, jqXHR) {
                 if (response.status == "SUCCESS") {
                     (function () {

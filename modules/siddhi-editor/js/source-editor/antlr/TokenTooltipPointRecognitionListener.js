@@ -52,9 +52,15 @@ TokenTooltipPointRecognitionListener.prototype.exitFunction_operation = function
         if (processorName) {
             updateTokenDescription(this.walker, SiddhiEditor.constants.FUNCTION_OPERATION, {
                 processorName: processorName, namespace: namespace
-            }, functionCtx.stop.line - 1, functionCtx.stop.column + 1);
+            }, functionCtx);
         }
     }
+};
+
+TokenTooltipPointRecognitionListener.prototype.exitFunction_name = function (ctx) {
+    updateTokenDescription(this.walker, SiddhiEditor.constants.FUNCTION_OPERATION, {
+        processorName: this.walker.utils.getTextFromANTLRCtx(ctx), namespace: undefined
+    }, ctx);
 };
 
 TokenTooltipPointRecognitionListener.prototype.exitStream_id = function (ctx) {
@@ -70,7 +76,7 @@ TokenTooltipPointRecognitionListener.prototype.exitStream_id = function (ctx) {
         updateTokenDescription(this.walker, (isInnerStream ? SiddhiEditor.constants.INNER_STREAMS : SiddhiEditor.constants.SOURCE), {
             sourceName: (isInnerStream ? "#" : "") + sourceName,
             partitionNumber: (isInnerStream ? this.partitionCount : undefined)
-        }, ctx.stop.line - 1, ctx.stop.column + 1);
+        }, ctx);
     }
 };
 
@@ -81,7 +87,7 @@ TokenTooltipPointRecognitionListener.prototype.exitTrigger_name = function (ctx)
     if (triggerName) {
         updateTokenDescription(this.walker, SiddhiEditor.constants.TRIGGERS, {
             triggerName: triggerName
-        }, ctx.stop.line - 1, ctx.stop.column + 1);
+        }, ctx);
     }
 };
 
@@ -97,15 +103,14 @@ TokenTooltipPointRecognitionListener.prototype.exitPartition = function () {
  * @param walker The walker of which the token should be update
  * @param type The ty[e of tooltip
  * @param tooltipData Tooltip point data
- * @param row The row at which the tooltip should be added
- * @param column The column at which the tooltip should be updated
+ * @param ctx The ANTLR context. The row and column at which the tooltip should be added will be derived from this
  */
-function updateTokenDescription(walker, type, tooltipData, row, column) {
+function updateTokenDescription(walker, type, tooltipData, ctx) {
     walker.tokenToolTipData.push({
         type: type,
         tooltipData: tooltipData,
-        row: row,
-        column: column
+        row: ctx.stop.line - 1,
+        column: ctx.stop.column + 1
     });
 }
 

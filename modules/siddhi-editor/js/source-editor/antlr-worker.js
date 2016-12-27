@@ -101,7 +101,7 @@ var SiddhiEditor = {};
          */
         renderer.notifyParseTreeWalkingCompletion = function (errors) {
             postMessage(JSON.stringify({
-                type: SiddhiEditor.constants.worker.PARSE_TREE_WALKING_COMPLETION,
+                type: SiddhiEditor.constants.worker.PARSE_TREE_GENERATION_COMPLETION,
                 data: errors
             }));
         };

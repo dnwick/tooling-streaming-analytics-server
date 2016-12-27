@@ -74,11 +74,11 @@ public class SourceEditorService {
     }
 
     @GET
-    @Path("/meta-data")
+    @Path("/metadata")
     public Response getMetaData() {
         MetaDataResponse response = new MetaDataResponse(Status.SUCCESS);
         response.setInBuilt(MetaDataHolder.getInBuiltProcessorMetaData());
-        response.setExtensions(MetaDataHolder.getExtensionProcessorMetaData());
+        response.setExtensions(SourceEditorUtils.getExtensionProcessorMetaData());
 
         String jsonString = new Gson().toJson(response);
         return Response.ok(jsonString, MediaType.APPLICATION_JSON)

@@ -218,10 +218,6 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                 // 3 seconds delay is added to avoid repeated server calls while user is typing the query.
                 setTimeout(function () {
                     if (Date.now() - self.state.lastEdit >= constants.SERVER_SIDE_VALIDATION_DELAY - 100) {
-                        // Updating the token tooltips using the data available
-                        // Some data that was intended to be fetched from the server might be missing
-                        siddhiWorker.generateTokenTooltips();
-
                         // Check for semantic errors by sending a validate request to the server
                         checkForSemanticErrors();
                     }
@@ -274,8 +270,6 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
 
                         // Updating token tooltips
                         self.completionEngine.clearIncompleteDataLists();
-
-                        siddhiWorker.generateTokenTooltips();
                     } else {
                         /*
                          * Error found in execution plan
@@ -328,7 +322,10 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                             }
                         }
                     }
-                }
+
+                    siddhiWorker.generateTokenTooltips();
+                },
+                siddhiWorker.generateTokenTooltips
             );
 
             /**
@@ -366,9 +363,10 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
          *
          * @private
          * @param {Object} data The execution plan and the missing data in a java script object
-         * @param {function} callback Missing streams whose definitions should be fetched after validation
+         * @param {function} callback Callback to be called after successful semantic error check
+         * @param {function} [errorCallback] Callback to be called after errors in semantic error check
          */
-        function submitToServerForSemanticErrorCheck(data, callback) {
+        function submitToServerForSemanticErrorCheck(data, callback, errorCallback) {
             if (data.executionPlan == "") {
                 return;
             }
@@ -376,7 +374,8 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                 type: "POST",
                 url: constants.SERVER_URL + "siddhi-editor/validator",
                 data: JSON.stringify(data),
-                success: callback
+                success: callback,
+                error: errorCallback
             });
         }
 
@@ -465,7 +464,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
         var tokenTooltipUpdater = new TokenTooltipUpdater(editor);
 
         // Generating the map from message types to handler functions
-        messageHandlerMap[constants.worker.PARSE_TREE_WALKING_COMPLETION] = updateSyntaxErrorList;
+        messageHandlerMap[constants.worker.PARSE_TREE_GENERATION_COMPLETION] = updateSyntaxErrorList;
         messageHandlerMap[constants.worker.DATA_POPULATION_COMPLETION] = updateCompletionEngineData;
         messageHandlerMap[constants.worker.TOKEN_TOOLTIP_POINT_RECOGNITION_COMPLETION] = updateTokenTooltips;
 
@@ -587,7 +586,7 @@ define(["ace/ace", "jquery", "./constants", "./utils", "./completion-engine", ".
                 } else if (snippets.functions && snippets.functions[processorName]) {
                     description = snippets.functions[processorName].description;
                 } else if (editor.completionEngine.evalScriptsList[processorName]) {
-                    description = this.editor.completionEngine.evalScriptsList[processorName].description;
+                    description = editor.completionEngine.evalScriptsList[processorName].description;
                 }
             }
             if (description) {
