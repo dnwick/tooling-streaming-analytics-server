@@ -30,7 +30,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 
 /**
- * Micro-service for exposing Ballerina tooling.
+ * Micro-service for exposing Siddhi tooling.
  *
  * @since 0.1-SNAPSHOT
  */

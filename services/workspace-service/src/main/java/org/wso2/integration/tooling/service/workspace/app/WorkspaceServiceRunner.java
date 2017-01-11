@@ -78,11 +78,12 @@ public class WorkspaceServiceRunner {
         FileServer fileServer = new FileServer();
         fileServer.setContextRoot(contextRoot);
         SourceEditorService sourceEditorService = new SourceEditorService();
+        logger.info("Port is ="+port);
         new MicroservicesRunner(port)
                 .deploy(fileServer, sourceEditorService)
                 .start();
         if (!isCloudMode) {
-            logger.info("Ballerina Editor URL: http://localhost:" + port);
+            logger.info("Siddhi Editor URL: http://localhost:" + port);
         }
     }
 }
